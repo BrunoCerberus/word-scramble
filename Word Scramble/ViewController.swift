@@ -22,6 +22,10 @@ class ViewController: UITableViewController {
             UIBarButtonItem(barButtonSystemItem: .add, target: self,
                             action: #selector(promptForAnswer))
         
+        navigationItem.leftBarButtonItem =
+            UIBarButtonItem(barButtonSystemItem: .refresh, target: self,
+                            action: #selector(startGame))
+        
         if let startWordsPath = Bundle.main.path(forResource: "start", ofType: "txt") {
             if let startWords = try? String(contentsOfFile: startWordsPath) {
                 allWords = startWords.components(separatedBy: "\n")
@@ -78,7 +82,7 @@ class ViewController: UITableViewController {
         present(ac, animated: true)
     }
 
-    func startGame() {
+    @objc func startGame() {
         allWords = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: allWords) as! [String]
         title = allWords.first
         usedWords.removeAll(keepingCapacity: true)
